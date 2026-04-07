@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-slim AS build
+FROM node:25-slim AS build
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ WORKDIR /app/frontend
 RUN pnpm build
 
 # Runtime stage
-FROM node:20-slim
+FROM node:25-slim
 
 WORKDIR /app/frontend
 
