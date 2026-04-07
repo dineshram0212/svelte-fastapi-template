@@ -1,16 +1,12 @@
 <script lang="ts">
+	import { HugeiconsIcon } from "@hugeicons/svelte";
+	import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from "@hugeicons/core-free-icons";
 	import { authClient } from "$lib/utils/auth";
 	import * as Avatar from "$lib/components/ui/avatar/index.js";
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
-	import BadgeCheckIcon from "@lucide/svelte/icons/badge-check";
-	import BellIcon from "@lucide/svelte/icons/bell";
-	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-	import CreditCardIcon from "@lucide/svelte/icons/credit-card";
-	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import SparklesIcon from "@lucide/svelte/icons/sparkles";
-
+	
 	let { user }: { user: { name: string; email: string; avatar?: string } } = $props();
 	const sidebar = useSidebar();
 </script>
@@ -35,19 +31,18 @@
 							<span class="truncate font-medium">{user.name}</span>
 							<span class="truncate text-xs">{user.email}</span>
 						</div>
-						<ChevronsUpDownIcon class="ms-auto size-4" />
 					</Sidebar.MenuButton>
 				{/snippet}
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content
-				class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
+				class="w-(--bits-dropdown-menu-anchor-width) min-w-56"
 				side={sidebar.isMobile ? "bottom" : "right"}
 				align="end"
 				sideOffset={4}
 			>
 				<DropdownMenu.Label class="p-0 font-normal">
 					<div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-						<Avatar.Root class="size-8 rounded-lg">
+						<Avatar.Root class="size-8">
 							<Avatar.Image src={user.avatar} alt={user.name} />
 							<Avatar.Fallback class="rounded-lg">
 								{user.name.split(" ").map(n => n[0]).join("").toUpperCase() || "CN"}
@@ -62,28 +57,28 @@
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
 					<DropdownMenu.Item>
-						<SparklesIcon />
+						<HugeiconsIcon icon={Sparkles} />
 						Upgrade to Pro
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Group>
 					<DropdownMenu.Item>
-						<BadgeCheckIcon />
+						<HugeiconsIcon icon={BadgeCheck} />
 						Account
 					</DropdownMenu.Item>
 					<DropdownMenu.Item>
-						<CreditCardIcon />
+						<HugeiconsIcon icon={CreditCard} />
 						Billing
 					</DropdownMenu.Item>
 					<DropdownMenu.Item>
-						<BellIcon />
+						<HugeiconsIcon icon={Bell} />
 						Notifications
 					</DropdownMenu.Item>
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onclick={() => authClient.signOut()}>
-					<LogOutIcon />
+					<HugeiconsIcon icon={LogOut} />
 					Log out
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>

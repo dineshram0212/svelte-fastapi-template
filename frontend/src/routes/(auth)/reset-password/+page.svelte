@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { authClient } from "$lib/utils/auth";
 	import { HugeiconsIcon } from "@hugeicons/svelte";
 	import { ViewIcon, ViewOffIcon, ArrowLeft01Icon, Loading03Icon } from "@hugeicons/core-free-icons";
+	import { goto } from "$app/navigation";
+	import { authClient } from "$lib/utils/auth";
 
 	let newPassword = $state("");
 	let loading = $state(false);

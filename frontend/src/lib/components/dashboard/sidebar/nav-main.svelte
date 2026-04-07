@@ -1,8 +1,6 @@
 <script lang="ts">
-	import * as Collapsible from "$lib/components/ui/collapsible/index.js";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { HugeiconsIcon } from "@hugeicons/svelte";
-	import { ChevronRight } from "@hugeicons/core-free-icons";
+	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 
 	let {
 		items,
@@ -23,44 +21,16 @@
 </script>
 
 <Sidebar.Group>
-	<Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
 	<Sidebar.Menu>
 		{#each items as item (item.title)}
-			<Collapsible.Root open={item.isActive} class="group/collapsible">
-				{#snippet child({ props })}
-					<Sidebar.MenuItem {...props}>
-						<Collapsible.Trigger>
-							{#snippet child({ props })}
-								<Sidebar.MenuButton {...props} tooltipContent={item.title}>
-									{#if item.icon}
-										<HugeiconsIcon icon={item.icon} />
-									{/if}
-									<span>{item.title}</span>
-									<HugeiconsIcon
-										icon={ChevronRight}
-										class="ms-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-									/>
-								</Sidebar.MenuButton>
-							{/snippet}
-						</Collapsible.Trigger>
-						<Collapsible.Content>
-							<Sidebar.MenuSub>
-								{#each item.items ?? [] as subItem (subItem.title)}
-									<Sidebar.MenuSubItem>
-										<Sidebar.MenuSubButton>
-											{#snippet child({ props })}
-												<a href={subItem.url} {...props}>
-													<span>{subItem.title}</span>
-												</a>
-											{/snippet}
-										</Sidebar.MenuSubButton>
-									</Sidebar.MenuSubItem>
-								{/each}
-							</Sidebar.MenuSub>
-						</Collapsible.Content>
-					</Sidebar.MenuItem>
-				{/snippet}
-			</Collapsible.Root>
+			<Sidebar.MenuItem>
+				<Sidebar.MenuButton tooltipContent={item.title}>
+					{#if item.icon}
+						<HugeiconsIcon icon={item.icon} />
+					{/if}
+					<span>{item.title}</span>
+				</Sidebar.MenuButton>
+			</Sidebar.MenuItem>
 		{/each}
 	</Sidebar.Menu>
 </Sidebar.Group>

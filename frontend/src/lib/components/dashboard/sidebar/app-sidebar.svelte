@@ -1,57 +1,8 @@
-<script lang="ts" module>
-	import { Grid3x3 } from "@hugeicons/core-free-icons";
-
-	// This is sample data.
-	const data = {
-		user: {
-			name: "shadcn",
-			email: "m@example.com",
-			avatar: "/avatars/shadcn.jpg",
-		},
-		teams: [
-			{
-				name: "Acme Inc",
-				plan: "Enterprise",
-			},
-			{
-				name: "Acme Corp.",
-				plan: "Startup",
-			},
-			{
-				name: "Evil Corp.",
-				plan: "Free",
-			},
-		],
-		navMain: [
-			{
-				title: "Playground",
-				url: "#",
-				icon: Grid3x3,
-				isActive: true,
-			},
-			{
-				title: "Models",
-				url: "#",
-				icon: Grid3x3,
-			},
-			{
-				title: "Documentation",
-				url: "#",
-				icon: Grid3x3,
-			},
-			{
-				title: "Settings",
-				url: "#",
-				icon: Grid3x3,
-			},
-		],
-	};
-</script>
-
 <script lang="ts">
+	import { user, orgs, navMain } from "$lib/constants/sidebar";
 	import NavMain from "./nav-main.svelte";
 	import NavUser from "./nav-user.svelte";
-	import TeamSwitcher from "./team-switcher.svelte";
+	import TeamSwitcher from "./org-switcher.svelte";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import type { ComponentProps } from "svelte";
 	import { userStore } from "$lib/stores/user.svelte";
@@ -62,15 +13,15 @@
 		...restProps
 	}: ComponentProps<typeof Sidebar.Root> = $props();
 
-	const currentUser = $derived(userStore.user ?? data.user);
+	const currentUser = $derived(userStore.user ?? user);
 </script>
 
-<Sidebar.Root bind:ref {collapsible} {...restProps}>
+<Sidebar.Root bind:ref variant="floating" {...restProps}>
 	<Sidebar.Header>
-		<TeamSwitcher teams={data.teams} />
+		<TeamSwitcher orgs={orgs} />
 	</Sidebar.Header>
 	<Sidebar.Content>
-		<NavMain items={data.navMain} />
+		<NavMain items={navMain} />
 	</Sidebar.Content>
 	<Sidebar.Footer>
 		<NavUser user={currentUser} />

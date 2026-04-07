@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { authClient } from "$lib/utils/auth";
-	import { goto } from "$app/navigation";
 	import { HugeiconsIcon } from "@hugeicons/svelte";
 	import {
 		ViewIcon,
@@ -8,6 +6,8 @@
 		Loading03Icon,
 		InformationCircleIcon,
 	} from "@hugeicons/core-free-icons";
+	import { authClient } from "$lib/utils/auth";
+	import { goto } from "$app/navigation";
 	import { notify } from "$lib/stores/notifications.svelte.js";
 
 	let email = $state("");

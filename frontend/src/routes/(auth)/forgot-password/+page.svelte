@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { authClient } from "$lib/utils/auth";
-	import { notify } from "$lib/stores/notifications.svelte.js";
 	import { HugeiconsIcon } from "@hugeicons/svelte";
 	import { ArrowLeft01Icon, Loading03Icon } from "@hugeicons/core-free-icons";
+	import { authClient } from "$lib/utils/auth";
+	import { notify } from "$lib/stores/notifications.svelte.js";
 
 	let email = $state("");
 	let loading = $state(false);
