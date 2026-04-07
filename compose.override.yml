@@ -80,6 +80,7 @@ services:
           action: rebuild
     # TODO: remove once coverage is done locally
     volumes:
+      - ./backend:/app/backend
       - ./backend/htmlcov:/app/backend/htmlcov
     environment:
       SMTP_HOST: "mailcatcher"
@@ -102,7 +103,19 @@ services:
       dockerfile: frontend/Dockerfile
       args:
         - VITE_API_URL=http://localhost:8000
+        - VITE_PUBLIC_GOOGLE_CLIENT_ID=${PUBLIC_GOOGLE_CLIENT_ID}
         - NODE_ENV=development
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/frontend/node_modules
+    develop:
+      watch:
+        - path: ./frontend
+          action: sync
+          target: /app/frontend
+          ignore:
+            - ./frontend/node_modules
+            - .svelte-kit
 
   admin:
     restart: "no"
@@ -113,7 +126,19 @@ services:
       dockerfile: admin/Dockerfile
       args:
         - VITE_API_URL=http://localhost:8000
+        - VITE_PUBLIC_GOOGLE_CLIENT_ID=${PUBLIC_GOOGLE_CLIENT_ID}
         - NODE_ENV=development
+    volumes:
+      - ./admin:/app/admin
+      - /app/admin/node_modules
+    develop:
+      watch:
+        - path: ./admin
+          action: sync
+          target: /app/admin
+          ignore:
+            - ./admin/node_modules
+            - ./admin/dist
 
   playwright:
     build:
