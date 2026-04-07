@@ -10,12 +10,36 @@
 	import { goto } from "$app/navigation";
 	import { notify } from "$lib/stores/notifications.svelte.js";
 
+	import { onMount } from "svelte";
+
 	let email = $state("");
 	let password = $state("");
 	let showPassword = $state(false);
 	let loading = $state(false);
 	let googleLoading = $state(false);
 	let error = $state<string | null>(null);
+
+	async function handleGoogleResponse(response: any) {
+		googleLoading = true;
+		const { error: authError } = await authClient.signIn.google(response.credential);
+		if (authError) {
+			error = authError.message || "Google login failed";
+			notify.alert("Google Login Failed", error);
+		} else {
+			notify.success("Welcome!", "Signed in with Google");
+			goto("/");
+		}
+		googleLoading = false;
+	}
+
+	onMount(() => {
+		if (typeof window !== "undefined" && (window as any).google) {
+			(window as any).google.accounts.id.initialize({
+				client_id: import.meta.env.VITE_PUBLIC_GOOGLE_CLIENT_ID || "your_frontend_client_id.apps.googleusercontent.com",
+				callback: handleGoogleResponse,
+			});
+		}
+	});
 
 	async function login() {
 		loading = true;
@@ -38,23 +62,17 @@
 		}
 	}
 
-	async function loginWithGoogle() {
-		googleLoading = true;
-		error = null;
-		const { error: socialError } = await authClient.signIn.social({
-			provider: "google",
-			callbackURL: "/",
-		});
-
-		if (socialError) {
-			const message = socialError.message || "Failed to continue with Google";
-			error = message;
-			notify.alert("Google Sign In Failed", message);
+	function loginWithGoogle() {
+		if ((window as any).google) {
+			(window as any).google.accounts.id.prompt();
 		}
-
-		googleLoading = false;
 	}
 </script>
+
+<svelte:head>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
+</svelte:head>
+
 
 <div class="relative space-y-7 pb-7">
 	<div class="space-y-2">
